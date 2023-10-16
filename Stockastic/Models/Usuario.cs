@@ -12,6 +12,7 @@ namespace Stockastic.Models
 
         public string NomeUsuarioLogin { get; set; }
         public string NomeUsuario { get; set; }
+        public string Email { get; set; }
 
         public string Senha { get; set; }
 
@@ -23,11 +24,12 @@ namespace Stockastic.Models
            
         }
 
-        public Usuario(string nomeUsuario, string senha, string nomeUsuarioLogin)
+        public Usuario(string nomeUsuarioLogin, string nomeUsuario, string email, string senha)
         {
-            NomeUsuario = nomeUsuario;
-            Senha = senha;
             NomeUsuarioLogin = nomeUsuarioLogin;
+            NomeUsuario = nomeUsuario;
+            Email = email;
+            Senha = senha;
         } 
     }
 

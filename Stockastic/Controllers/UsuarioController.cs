@@ -50,6 +50,7 @@ public class UsuarioController : ControllerBase
         {
             NomeUsuarioLogin = model.NomeUsuarioLogin,
             NomeUsuario = model.NomeUsuario,
+            Email = model.Email,
             Senha = model.Senha
         };
 
