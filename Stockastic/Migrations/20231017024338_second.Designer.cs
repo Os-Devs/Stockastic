@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stockastic.Models;
 
@@ -10,9 +11,11 @@ using Stockastic.Models;
 namespace Stockastic.Migrations
 {
     [DbContext(typeof(StockasticContext))]
-    partial class StockasticContextModelSnapshot : ModelSnapshot
+    [Migration("20231017024338_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

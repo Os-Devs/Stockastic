@@ -46,17 +46,19 @@ public class UsuarioController : ControllerBase
     [HttpPost("cadastro")]
     public async Task<ActionResult<Usuario>> Cadastro([FromBody] Usuario model)
     {
-        var usuario = new Usuario();
         try
         {
-            var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == usuario.NomeUsuario);
+            var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == model.NomeUsuario);
 
             if (usuarioExistente == null)
             {
-                usuario.NomeUsuarioLogin = model.NomeUsuarioLogin;
-                usuario.NomeUsuario = model.NomeUsuario;
-                usuario.Email = model.Email;
-                usuario.Senha = model.Senha;
+                var usuario = new Usuario
+                {
+                    NomeUsuarioLogin = model.NomeUsuarioLogin,
+                    NomeUsuario = model.NomeUsuario,
+                    Email = model.Email,
+                    Senha = model.Senha
+                };
 
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
