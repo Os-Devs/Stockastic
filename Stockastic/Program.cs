@@ -9,6 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("StockasticContext");
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("corspolicy",
+                          policy =>
+                          {
+                              policy.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+                                                 
+                          });
+});
+
+
 builder.Services.AddDbContext<StockasticContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -27,6 +38,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("corspolicy");
 
 app.UseAuthorization();
 
