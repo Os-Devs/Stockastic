@@ -46,17 +46,32 @@ public class UsuarioController : ControllerBase
     [HttpPost("cadastro")]
     public async Task<ActionResult<Usuario>> Cadastro([FromBody] Usuario model)
     {
-        var usuario = new Usuario
+        var usuario = new Usuario();
+        try
         {
-            NomeUsuarioLogin = model.NomeUsuarioLogin,
-            NomeUsuario = model.NomeUsuario,
-            Email = model.Email,
-            Senha = model.Senha
-        };
+            var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == usuario.NomeUsuario);
 
-        _context.Usuarios.Add(usuario);
-        await _context.SaveChangesAsync();
+            if (usuarioExistente == null)
+            {
+                usuario.NomeUsuarioLogin = model.NomeUsuarioLogin;
+                usuario.NomeUsuario = model.NomeUsuario;
+                usuario.Email = model.Email;
+                usuario.Senha = model.Senha;
 
-        return CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                // CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
+                return Ok("Usuário cadastrado com sucesso!");
+            }
+            else
+            {
+                throw new InvalidOperationException("Nome de usuário já existe");
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Ocorreu um erro ao criar o usuário: " + ex.Message);
+        }
     }
 }

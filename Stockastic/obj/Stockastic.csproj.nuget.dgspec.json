@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Adriana\\Documents\\Stockastic\\Stockastic\\Stockastic\\Stockastic.csproj": {}
+    "C:\\Users\\Adriana\\Documents\\GitHub\\Stockastic\\Stockastic\\Stockastic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Adriana\\Documents\\Stockastic\\Stockastic\\Stockastic\\Stockastic.csproj": {
+    "C:\\Users\\Adriana\\Documents\\GitHub\\Stockastic\\Stockastic\\Stockastic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Adriana\\Documents\\Stockastic\\Stockastic\\Stockastic\\Stockastic.csproj",
+        "projectUniqueName": "C:\\Users\\Adriana\\Documents\\GitHub\\Stockastic\\Stockastic\\Stockastic.csproj",
         "projectName": "Stockastic",
-        "projectPath": "C:\\Users\\Adriana\\Documents\\Stockastic\\Stockastic\\Stockastic\\Stockastic.csproj",
+        "projectPath": "C:\\Users\\Adriana\\Documents\\GitHub\\Stockastic\\Stockastic\\Stockastic.csproj",
         "packagesPath": "C:\\Users\\Adriana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Adriana\\Documents\\Stockastic\\Stockastic\\Stockastic\\obj\\",
+        "outputPath": "C:\\Users\\Adriana\\Documents\\GitHub\\Stockastic\\Stockastic\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Adriana\\AppData\\Roaming\\NuGet\\NuGet.Config",
