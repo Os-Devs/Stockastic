@@ -63,7 +63,6 @@ public class UsuarioController : ControllerBase
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
 
-                // CreatedAtAction("GetUsuario", new { id = usuario.Id }, usuario);
                 return Ok("Usuário cadastrado com sucesso!");
             }
             else
