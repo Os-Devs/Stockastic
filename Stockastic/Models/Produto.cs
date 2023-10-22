@@ -11,7 +11,7 @@ namespace Stockastic.Models
         public int Id { get; set; }
 
         public string NomeProduto { get; set; }
-        public DateTime? PrazoValidade { get; set; }
+        public string PrazoValidade { get; set; }
         public string DescricaoProduto { get; set; }
         public decimal PrecoUnitarioProduto { get; set; }
         public int QuantidadeMinimaEstoqueProduto { get; set; }
@@ -19,9 +19,9 @@ namespace Stockastic.Models
 
         public Produto()
         {
-
         }
-        public Produto(string nomeProduto, DateTime? prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto)
+
+        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto)
         {
             NomeProduto = nomeProduto;
             PrazoValidade = prazoValidade;

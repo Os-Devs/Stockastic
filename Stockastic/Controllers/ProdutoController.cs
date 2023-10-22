@@ -1,43 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Stockastic.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Stockastic.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/produtos")]
     [ApiController]
     public class ProdutoController : ControllerBase
     {
-        // GET: api/<ProdutoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly StockasticContext _context;
+
+        public ProdutoController(StockasticContext context)
         {
-            return new string[] { "value1", "value2" };
+            _context = context;
         }
 
-        // GET api/<ProdutoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("cadastro")]
+
+        public async Task<ActionResult<Produto>> Cadastro([FromBody] Produto model)
         {
-            return "value";
+            try
+            {
+                var produtoExistente = _context.Produtos.FirstOrDefault(p => p.NomeProduto == model.NomeProduto);
+
+                if (produtoExistente == null)
+                {
+                    var produto = new Produto
+                    {
+                        NomeProduto = model.NomeProduto,
+                        PrazoValidade = model.PrazoValidade,
+                        DescricaoProduto = model.DescricaoProduto,
+                        PrecoUnitarioProduto = model.PrecoUnitarioProduto,
+                        QuantidadeMinimaEstoqueProduto = model.QuantidadeMinimaEstoqueProduto
+                    };
+
+                    _context.Produtos.Add(produto);
+                    await _context.SaveChangesAsync();
+
+                    return Ok("Produto cadastrado com sucesso!");
+                }
+                else
+                {
+                    throw new InvalidOperationException("Produto já existe em estoque");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro ao cadastrar o produto: " + ex.Message);
+            }
         }
 
-        // POST api/<ProdutoController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
-        // PUT api/<ProdutoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ProdutoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
