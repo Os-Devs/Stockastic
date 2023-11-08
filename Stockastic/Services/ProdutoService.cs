@@ -14,7 +14,7 @@ namespace Stockastic.Services
             _dbContext = dbContext;
         }
 
-        public void AdicionarProduto(Produto produto)
+        public void AdicionarProduto(Produto produto, int quantidade)
         {
             if (usuario.Tipo == TipoUsuario.Empresa)
             {

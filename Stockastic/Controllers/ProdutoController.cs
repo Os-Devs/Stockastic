@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stockastic.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Stockastic.Controllers
 {
@@ -11,39 +10,49 @@ namespace Stockastic.Controllers
     public class ProdutoController : ControllerBase
     {
         private readonly StockasticContext _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public ProdutoController(StockasticContext context)
+        public ProdutoController(StockasticContext context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpPost("cadastro")]
 
-        public async Task<ActionResult<Produto>> Cadastro([FromBody] Produto model)
+        public async Task<IActionResult> CriarProduto([FromBody] Produto produtowModel, Usuario usuarioId)
         {
             try
             {
-                var produtoExistente = _context.Produtos.FirstOrDefault(p => p.NomeProduto == model.NomeProduto);
+                var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == usuarioId.NomeUsuario);
 
-                if (produtoExistente == null)
+                if (usuarioExistente != null)
                 {
                     var produto = new Produto
+
                     {
-                        NomeProduto = model.NomeProduto,
-                        PrazoValidade = model.PrazoValidade,
-                        DescricaoProduto = model.DescricaoProduto,
-                        PrecoUnitarioProduto = model.PrecoUnitarioProduto,
-                        QuantidadeMinimaEstoqueProduto = model.QuantidadeMinimaEstoqueProduto
+                        NomeProduto = produtowModel.NomeProduto,
+                        PrazoValidade = produtowModel.PrazoValidade,
+                        DescricaoProduto = produtowModel.DescricaoProduto,
+                        PrecoUnitarioProduto = produtowModel.PrecoUnitarioProduto,
+                        QuantidadeMinimaEstoqueProduto = produtowModel.QuantidadeMinimaEstoqueProduto
                     };
 
-                    _context.Produtos.Add(produto);
+                    var associacaoUsuarioProduto = new AssociacaoUsuarioProduto
+                    {
+                        Produto = produto,
+
+                        Usuario = usuarioExistente
+                    };
+
+                    _context.AssociacaoUsuarioProduto.Add(associacaoUsuarioProduto);
                     await _context.SaveChangesAsync();
 
                     return Ok("Produto cadastrado com sucesso!");
                 }
                 else
                 {
-                    throw new InvalidOperationException("Produto já existe em estoque");
+                    throw new InvalidOperationException("Produto já existe para esse usuário cadastrado, incremente-o.");
                 }
             }
             catch (Exception ex)
@@ -51,7 +60,6 @@ namespace Stockastic.Controllers
                 return StatusCode(500, "Ocorreu um erro ao cadastrar o produto: " + ex.Message);
             }
         }
-
 
     }
 }

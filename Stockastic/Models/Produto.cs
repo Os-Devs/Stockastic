@@ -15,19 +15,41 @@ namespace Stockastic.Models
         public string DescricaoProduto { get; set; }
         public decimal PrecoUnitarioProduto { get; set; }
         public int QuantidadeMinimaEstoqueProduto { get; set; }
-        public int QuantidadeAtual { get; set; } // preciso criar um método para atribuir valores a essa propriedade, eu deixo setar?
+        public int QuantidadeAtual { get; set; }
+        public Usuario UsuarioAssociado { get; set; }
 
         public Produto()
         {
         }
 
-        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto)
+        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto, Usuario usuarioAssociado)
         {
             NomeProduto = nomeProduto;
             PrazoValidade = prazoValidade;
             DescricaoProduto = descricaoProduto;
             PrecoUnitarioProduto = precoUnitarioProduto;
             QuantidadeMinimaEstoqueProduto = quantidadeMinimaEstoqueProduto;
+            UsuarioAssociado = usuarioAssociado;
+
+        }
+
+        public string IncrementarQuantidade(int quantidade)
+        {
+            QuantidadeAtual += quantidade;
+            return "Quantidade do produto adicionada com sucesso";
+        }
+
+        public string DecrementarQuantidade(int quantidade)
+        {
+            if (QuantidadeAtual >= quantidade)
+            {
+                QuantidadeAtual -= quantidade;
+                return "Quantidade do produto diminuída com sucesso";
+            }
+            else
+            {
+                throw new Exception("A quantidade solicitada do produto é superior a quantidade em estoque.");
+            }
         }
 
     }
