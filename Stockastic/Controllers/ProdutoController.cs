@@ -38,14 +38,6 @@ namespace Stockastic.Controllers
                         QuantidadeMinimaEstoqueProduto = produtowModel.QuantidadeMinimaEstoqueProduto
                     };
 
-                    var associacaoUsuarioProduto = new AssociacaoUsuarioProduto
-                    {
-                        Produto = produto,
-
-                        Usuario = usuarioExistente
-                    };
-
-                    _context.AssociacaoUsuarioProduto.Add(associacaoUsuarioProduto);
                     await _context.SaveChangesAsync();
 
                     return Ok("Produto cadastrado com sucesso!");

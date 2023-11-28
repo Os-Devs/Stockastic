@@ -22,15 +22,13 @@ namespace Stockastic.Models
         {
         }
 
-        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto, Usuario usuarioAssociado)
+        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto)
         {
             NomeProduto = nomeProduto;
             PrazoValidade = prazoValidade;
             DescricaoProduto = descricaoProduto;
             PrecoUnitarioProduto = precoUnitarioProduto;
             QuantidadeMinimaEstoqueProduto = quantidadeMinimaEstoqueProduto;
-            UsuarioAssociado = usuarioAssociado;
-
         }
 
         public string IncrementarQuantidade(int quantidade)
