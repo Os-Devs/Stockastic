@@ -16,9 +16,11 @@ namespace Stockastic.Models
         public decimal PrecoUnitarioProduto { get; set; }
         public int QuantidadeMinimaEstoqueProduto { get; set; }
         public int QuantidadeAtual { get; set; }
-        public Usuario UsuarioAssociado { get; set; }
+        public int Quantidade { get; set; }
 
-        public Produto()
+        //public Usuario UsuarioAssociado { get; set; }
+
+    public Produto()
         {
         }
 

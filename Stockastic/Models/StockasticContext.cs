@@ -16,6 +16,6 @@ namespace Stockastic.Models
 
         public DbSet<Categoria> Categorias { get; set; }
 
-        public DbSet<AssociacaoUsuarioProduto> AssociacaoUsuarioProduto { get; set; }
+        //public DbSet<AssociacaoUsuarioProduto> AssociacaoUsuarioProduto { get; set; }
     }
 }

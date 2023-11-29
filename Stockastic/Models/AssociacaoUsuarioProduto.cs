@@ -15,9 +15,5 @@ namespace Stockastic.Models
         public string UsuarioIdd { get; set; }
         public Usuario Usuario { get; set; }
 
-
-        //Preciso fazer aqui essa associação
-
-
     }
 }

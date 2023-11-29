@@ -2,6 +2,7 @@ using Stockastic.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,6 @@ builder.Services.AddCors(options =>
                                                  
                           });
 });
-
 
 builder.Services.AddDbContext<StockasticContext>(options =>
 {

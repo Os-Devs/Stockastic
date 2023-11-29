@@ -10,26 +10,29 @@ namespace Stockastic.Controllers
     public class ProdutoController : ControllerBase
     {
         private readonly StockasticContext _context;
-        private readonly UserManager<Usuario> _userManager;
-
-        public ProdutoController(StockasticContext context, UserManager<Usuario> userManager)
+        public ProdutoController(StockasticContext context)
         {
             _context = context;
-            _userManager = userManager;
+        }
+
+        [HttpGet("listaProdutos")]
+        public async Task<ActionResult<IEnumerable<Produto>>> GetProdutos()
+        {
+            return await _context.Produtos.ToListAsync();
         }
 
         [HttpPost("cadastro")]
 
-        public async Task<IActionResult> CriarProduto([FromBody] Produto produtowModel, Usuario usuarioId)
+        public async Task<IActionResult> CriarProduto([FromBody] Produto produtowModel)
         {
+
             try
             {
-                var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == usuarioId.NomeUsuario);
+                var produtoExistente = _context.Produtos.FirstOrDefault(u => u.NomeProduto == produtowModel.NomeProduto);
 
-                if (usuarioExistente != null)
+                if (produtoExistente == null)
                 {
                     var produto = new Produto
-
                     {
                         NomeProduto = produtowModel.NomeProduto,
                         PrazoValidade = produtowModel.PrazoValidade,
@@ -53,5 +56,30 @@ namespace Stockastic.Controllers
             }
         }
 
+        [HttpPost("incrementar")]
+        public async Task<IActionResult> IncrementarProduto([FromBody] int quantidade)
+        {
+            var produtowModel = new Produto();
+            var produtoExistente = _context.Produtos.FirstOrDefault(p => p.NomeProduto == produtowModel.NomeProduto);
+            if (produtoExistente != null)
+                produtoExistente.IncrementarQuantidade(quantidade);
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Quantidade do produto adicionada com sucesso");
+        }
+
+        [HttpPost("decrementar")]
+        public async Task<IActionResult> DecrementarProduto([FromBody]int quantidade)
+        {
+            var produtowModel = new Produto();
+            var produtoExistente = _context.Produtos.FirstOrDefault(p => p.NomeProduto == produtowModel.NomeProduto);
+            if (produtoExistente != null)
+                produtoExistente.DecrementarQuantidade(quantidade);
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Quantidade do produto removida com sucesso");
+        }
     }
 }
