@@ -5,32 +5,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Stockastic.Models
 {
     public class Produto
-    {        
+    {
+        
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         public string NomeProduto { get; set; }
         public string PrazoValidade { get; set; }
         public string DescricaoProduto { get; set; }
         public decimal PrecoUnitarioProduto { get; set; }
         public int QuantidadeMinimaEstoqueProduto { get; set; }
         public int QuantidadeAtual { get; set; }
-        public int Quantidade { get; set; }
+        public Categoria Categoria { get; set; }
 
-        //public Usuario UsuarioAssociado { get; set; }
+        public int UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
 
-    public Produto()
-        {
-        }
+        public Produto() { }
 
-        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto)
+        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto, Categoria categoria, Usuario usuario)
         {
             NomeProduto = nomeProduto;
             PrazoValidade = prazoValidade;
             DescricaoProduto = descricaoProduto;
             PrecoUnitarioProduto = precoUnitarioProduto;
             QuantidadeMinimaEstoqueProduto = quantidadeMinimaEstoqueProduto;
+            Categoria = categoria;
+            Usuario = usuario;
         }
 
         public string IncrementarQuantidade(int quantidade)

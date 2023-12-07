@@ -6,13 +6,14 @@ namespace Stockastic.Models
 {
     public class AssociacaoUsuarioProduto
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int ProdutoIdd { get; set; }
+        public int ProdutoId { get; set; }
         public Produto Produto { get; set; }
 
-        public string UsuarioIdd { get; set; }
+        public string UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
 
     }

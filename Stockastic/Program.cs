@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Stockastic.Services.Interfaces;
+using Stockastic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,3 +48,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+/* Injecao de servicos */
+
+builder.Services.AddSingleton<IProdutoService, ProdutoService>();
