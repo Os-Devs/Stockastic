@@ -24,6 +24,7 @@ namespace Stockastic.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("DescricaoCategoria")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("NomeCategoria");
@@ -36,6 +37,9 @@ namespace Stockastic.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("CategoriaNomeCategoria")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("DescricaoProduto")
                         .IsRequired()
@@ -52,16 +56,20 @@ namespace Stockastic.Migrations
                     b.Property<decimal>("PrecoUnitarioProduto")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuantidadeAtual")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantidadeMinimaEstoqueProduto")
                         .HasColumnType("int");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaNomeCategoria");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Produtos");
                 });
@@ -94,6 +102,28 @@ namespace Stockastic.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Stockastic.Models.Produto", b =>
+                {
+                    b.HasOne("Stockastic.Models.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaNomeCategoria");
+
+                    b.HasOne("Stockastic.Models.Usuario", "Usuario")
+                        .WithMany("Produtos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Stockastic.Models.Usuario", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

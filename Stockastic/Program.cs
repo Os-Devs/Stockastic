@@ -8,6 +8,11 @@ using Stockastic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/* Injecao de servicos */
+
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+
 // Add services to the container.
 
 var connectionString = builder.Configuration.GetConnectionString("StockasticContext");
@@ -48,7 +53,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-/* Injecao de servicos */
-
-builder.Services.AddSingleton<IProdutoService, ProdutoService>();

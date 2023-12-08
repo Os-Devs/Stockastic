@@ -17,5 +17,16 @@ namespace Stockastic.Models
             DescricaoCategoria = descricaoCategoria;
         }
 
+        public Categoria WithNome(string nome)
+        {
+            NomeCategoria = nome;
+            return this;
+        }
+
+        public Categoria WithDescricao(string descricao)
+        {
+            DescricaoCategoria = descricao;
+            return this;
+        }
     }
 }

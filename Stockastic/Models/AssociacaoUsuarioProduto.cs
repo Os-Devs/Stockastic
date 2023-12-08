@@ -1,4 +1,5 @@
-﻿using Stockastic.Models;
+﻿/*
+using Stockastic.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,3 +19,4 @@ namespace Stockastic.Models
 
     }
 }
+*/

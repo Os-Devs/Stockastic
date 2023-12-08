@@ -19,13 +19,6 @@ public class UsuarioController : ControllerBase
         return await _context.Usuarios.ToListAsync();
     }
 
-    [HttpGet("tipo")]
-    public ActionResult<IEnumerable<string>> GetTiposUsuario()
-    {
-        var tipo = Enum.GetNames(typeof(TipoUsuario));
-        return Ok(tipo);
-    }
-
     [HttpGet("login")]
     public async Task<ActionResult<Usuario>> Login([FromQuery] string nomeUsuarioLogin, [FromQuery] string senha)
     {
@@ -40,6 +33,7 @@ public class UsuarioController : ControllerBase
         {
             return Unauthorized();
         }
+
         return Ok();
     }
 

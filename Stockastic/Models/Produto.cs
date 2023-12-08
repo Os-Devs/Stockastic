@@ -16,14 +16,12 @@ namespace Stockastic.Models
         public decimal PrecoUnitarioProduto { get; set; }
         public int QuantidadeMinimaEstoqueProduto { get; set; }
         public int QuantidadeAtual { get; set; }
-        public Categoria Categoria { get; set; }
-
-        public int UsuarioId { get; set; }
+        public Categoria? Categoria { get; set; }
         public Usuario Usuario { get; set; }
 
         public Produto() { }
 
-        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto, Categoria categoria, Usuario usuario)
+        public Produto(string nomeProduto, string prazoValidade, string descricaoProduto, decimal precoUnitarioProduto, int quantidadeMinimaEstoqueProduto, Categoria? categoria, Usuario usuario)
         {
             NomeProduto = nomeProduto;
             PrazoValidade = prazoValidade;
@@ -49,9 +47,58 @@ namespace Stockastic.Models
             }
             else
             {
-                throw new Exception("A quantidade solicitada do produto é superior a quantidade em estoque.");
+                return "A quantidade solicitada do produto é superior a quantidade em estoque.";
             }
         }
 
+        /* Builder */
+        public Produto WithNome(string nome)
+        {
+            NomeProduto = nome;
+            return this;
+        }
+
+
+        public Produto WithPrazoValidade(string data)
+        {
+            PrazoValidade = data;
+            return this;
+        }
+
+        public Produto WithDescricao(string descricao)
+        {
+            DescricaoProduto = descricao;
+            return this;
+        }
+
+        public Produto WithPrecoUnitario(decimal preco)
+        {
+            PrecoUnitarioProduto = preco;
+            return this;
+        }
+
+        public Produto WithQuantidadeMinima(int quantidade)
+        {
+            QuantidadeMinimaEstoqueProduto = quantidade;
+            return this;
+        }
+
+        public Produto WithQuantidade(int quantidade)
+        {
+            QuantidadeAtual = quantidade;
+            return this;
+        }
+
+        public Produto WithCategoria(Categoria categoria)
+        {
+            Categoria = categoria;
+            return this;
+        }
+
+        public Produto WithUsuario(Usuario usuario)
+        {
+            Usuario = usuario;
+            return this;
+        }
     }
 }

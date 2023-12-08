@@ -15,17 +15,8 @@ namespace Stockastic.Models
         public string Email { get; set; }
         public string Senha { get; set; }
         public TipoUsuario Tipo { get; set; }
-        public List<Produto> Produtos { get; set; }
 
-        private void InitLista()
-        {
-            Produtos = new List<Produto>();
-        }
-
-        public Usuario() 
-        {
-            InitLista();        
-        }
+        public Usuario() { }
 
         public Usuario(string nomeUsuarioLogin, string nomeUsuario, string email, string senha, TipoUsuario tipoUsuario)
         {
@@ -34,17 +25,6 @@ namespace Stockastic.Models
             Email = email;
             Senha = senha;
             Tipo = tipoUsuario;
-            InitLista();
-        }
-
-        public void AdicionarProduto(Produto produto)
-        {
-            Produtos.Add(produto);
-        }
-
-        public void RemoverProduto(Produto produto)
-        {
-            Produtos.Remove(produto);
         }
     }
 

@@ -10,8 +10,8 @@ using Stockastic.Models;
 namespace Stockastic.Migrations
 {
     [DbContext(typeof(StockasticContext))]
-    [Migration("20231129013403_test1")]
-    partial class test1
+    [Migration("20231207225300_four")]
+    partial class four
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,40 +21,13 @@ namespace Stockastic.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Stockastic.Models.AssociacaoUsuarioProduto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProdutoIdd")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioIdd")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("AssociacaoUsuarioProduto");
-                });
-
             modelBuilder.Entity("Stockastic.Models.Categoria", b =>
                 {
                     b.Property<string>("NomeCategoria")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("DescricaoCategoria")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("NomeCategoria");
@@ -67,6 +40,9 @@ namespace Stockastic.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("CategoriaNomeCategoria")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("DescricaoProduto")
                         .IsRequired()
@@ -89,7 +65,14 @@ namespace Stockastic.Migrations
                     b.Property<int>("QuantidadeMinimaEstoqueProduto")
                         .HasColumnType("int");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoriaNomeCategoria");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Produtos");
                 });
@@ -124,23 +107,26 @@ namespace Stockastic.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Stockastic.Models.AssociacaoUsuarioProduto", b =>
+            modelBuilder.Entity("Stockastic.Models.Produto", b =>
                 {
-                    b.HasOne("Stockastic.Models.Produto", "Produto")
+                    b.HasOne("Stockastic.Models.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoriaNomeCategoria");
 
                     b.HasOne("Stockastic.Models.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Produtos")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Produto");
+                    b.Navigation("Categoria");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Stockastic.Models.Usuario", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

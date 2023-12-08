@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stockastic.DTO;
 using Stockastic.Models;
+using Stockastic.Services.Interfaces;
 
 namespace Stockastic.Controllers
 {
@@ -8,33 +10,23 @@ namespace Stockastic.Controllers
     [ApiController]
     public class CategoriaController : ControllerBase
     {
-        private readonly StockasticContext _context;
+        private readonly ICategoriaService _categoria;
 
-        public CategoriaController(StockasticContext context)
+        public CategoriaController(ICategoriaService categoria)
         {
-            _context = context;
+            _categoria = categoria;
         }
 
         [HttpPost("cadastro")]
-
-        public async Task<ActionResult<Categoria>> Cadastro([FromBody] Categoria model)
+        public async Task<ActionResult> Cadastro([FromBody] CategoriaDTO categoria)
         {
             try
             {
-                var produtoExistente = _context.Categorias.FirstOrDefault(c => c.NomeCategoria == model.NomeCategoria);
+                var cadastro = await _categoria.CadastroCategoria(categoria);
 
-                if (produtoExistente == null)
+                if(cadastro > 0)
                 {
-                    var categoria = new Categoria
-                    {
-                        NomeCategoria = model.NomeCategoria,
-                        DescricaoCategoria = model.DescricaoCategoria,
-                    };
-
-                    _context.Categorias.Add(categoria);
-                    await _context.SaveChangesAsync();
-
-                    return Ok("Produto cadastrado com sucesso!");
+                    return Ok("Categoria cadastrada com sucesso!");
                 }
                 else
                 {
@@ -43,10 +35,14 @@ namespace Stockastic.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Ocorreu um erro ao cadastrar o produto: " + ex.Message);
+                return StatusCode(500, "Ocorreu um erro ao cadastrar a categoria: " + ex.Message);
             }
         }
 
-
+        [HttpGet("listar")]
+        public async Task<ActionResult<IEnumerable<Categoria>>> ListarCategorias()
+        {
+            return await _categoria.ListarCategorias();
+        }
     }
 }
