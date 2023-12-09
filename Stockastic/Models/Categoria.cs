@@ -17,6 +17,7 @@ namespace Stockastic.Models
             DescricaoCategoria = descricaoCategoria;
         }
 
+        /* Builder */
         public Categoria WithNome(string nome)
         {
             NomeCategoria = nome;

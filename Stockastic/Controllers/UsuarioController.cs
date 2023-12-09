@@ -1,67 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stockastic.DTO;
 using Stockastic.Models;
+using Stockastic.Services.Interfaces;
 
 [Route("api/usuarios")]
 [ApiController]
 public class UsuarioController : ControllerBase
 {
-    private readonly StockasticContext _context;
+    private readonly IUsuarioService _usuarioService;
 
-    public UsuarioController(StockasticContext context)
+    public UsuarioController(IUsuarioService service)
     {
-        _context = context;
+        _usuarioService = service;
     }
 
     [HttpGet("listaUsuarios")]
     public async Task<ActionResult<IEnumerable<Usuario>>> GetUsuarios()
     {
-        return await _context.Usuarios.ToListAsync();
+        return await _usuarioService.ListarUsuarios();
     }
 
-    [HttpGet("login")]
-    public async Task<ActionResult<Usuario>> Login([FromQuery] string nomeUsuarioLogin, [FromQuery] string senha)
+    [HttpPost("login")]
+    public async Task<ActionResult<Usuario>> Login([FromBody] LoginDTO login)
     {
-        var usuario = await _context.Usuarios.SingleOrDefaultAsync(x => x.NomeUsuarioLogin == nomeUsuarioLogin);
+        var usuario = await _usuarioService.LoginUsuario(login);
 
         if (usuario == null)
-        {
-            return NotFound();
-        }
-
-        if (usuario.Senha != senha)
         {
             return Unauthorized();
         }
 
-        return Ok();
+        return Ok(usuario);
     }
 
     [HttpPost("cadastro")]
-    public async Task<ActionResult<Usuario>> Cadastro([FromBody] Usuario model)
+    public async Task<ActionResult<Usuario>> Cadastro([FromBody] CadastroUsuarioDTO model)
     {
         try
         {
-            var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.NomeUsuario == model.NomeUsuario);
+            var cadastro = await _usuarioService.CadastroUsuario(model);
 
-            if (usuarioExistente == null)
+            if(cadastro > 0)
             {
-                var usuario = new Usuario
-                {
-                    NomeUsuarioLogin = model.NomeUsuarioLogin,
-                    NomeUsuario = model.NomeUsuario,
-                    Email = model.Email,
-                    Senha = model.Senha
-                };
-
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
-
                 return Ok("Usuário cadastrado com sucesso!");
             }
             else
             {
-                throw new InvalidOperationException("Nome de usuário já existe");
+                return StatusCode(400, "Ocorreu um erro ao criar o usuário: Já existe um usuário registrado com os dados informados" );
             }
         }
         catch (Exception ex)

@@ -1,11 +1,12 @@
-﻿using Stockastic.Models;
+﻿using Stockastic.DTO;
+using Stockastic.Models;
 
 namespace Stockastic.Services.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<int> CadastroUsuario();
-        Task<Usuario> LoginUsuario();
-        Task<IEnumerable<Usuario>> ListarUsuarios();
+        Task<int> CadastroUsuario(CadastroUsuarioDTO usuarioDTO);
+        Task<Usuario?> LoginUsuario(LoginDTO loginDTO);
+        Task<List<Usuario>> ListarUsuarios();
     }
 }

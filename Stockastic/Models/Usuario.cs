@@ -26,13 +26,43 @@ namespace Stockastic.Models
             Senha = senha;
             Tipo = tipoUsuario;
         }
+
+        /* Builder */
+        public Usuario WithNomeLogin(string nome)
+        {
+            NomeUsuarioLogin = nome;
+            return this;
+        }
+
+        public Usuario WithNomeUsuario(string nome)
+        {
+            NomeUsuario = nome;
+            return this;
+        }
+
+        public Usuario WithEmail(string email)
+        {
+            Email = email;
+            return this;
+        }
+
+        public Usuario WithSenha(string senha)
+        {
+            Senha = senha;
+            return this;
+        }
+
+        public Usuario WithTipoUsuario(int tipo)
+        {
+            TipoUsuario[] valores = (TipoUsuario[]) Enum.GetValues(typeof(TipoUsuario));
+            Tipo = valores[tipo];
+            return this;
+        }
     }
 
     public enum TipoUsuario
     {
-
         Empresa,
         Funcionario
-
     }
 }
